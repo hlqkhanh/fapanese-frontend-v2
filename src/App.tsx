@@ -11,6 +11,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import { Header } from './components/Header'
 import Footer from './components/Footer'
 import CourseList from './pages/CoureListPage'
+import ForbiddenPage from './pages/ForbiddentPage'
 function App() {
 
   return (
@@ -30,30 +31,15 @@ function App() {
           <Routes>
 
             {/* public routes */}
-            <Route
-              path='/login'
-              element={<LoginPage />}
-            />
+            <Route path="/" element={<HomePage />} />
 
-            <Route
-              path='/signup'
-              element={<SignUpPage />}
-            />
+            <Route path='/login' element={<LoginPage />} />
+            <Route path='/signup' element={<SignUpPage />} />
+            <Route path='/verify-otp' element={<VerifyOTPPage />} />
 
-            <Route
-              path='/verify-otp'
-              element={<VerifyOTPPage />}
-            />
+            <Route path="/courses" element={<CourseList />} />
 
-            <Route
-              path="/"
-              element={<HomePage />}
-            />
-
-            <Route
-              path="/courses"
-              element={<CourseList />}
-            />
+            <Route path="/forbidden" element={<ForbiddenPage />} />
 
             {/* protectect routes */}
             <Route element={<ProtectedRoute />}>

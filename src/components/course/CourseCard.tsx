@@ -10,8 +10,6 @@ interface CourseCardProps {
 }
 
 const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
-    // Lưu ý: Mình đã bỏ thẻ <section> bao quanh để component này tái sử dụng linh hoạt hơn.
-    // Layout chính sẽ do CourseList quản lý.
     
     return (
         <Card className="relative group overflow-hidden rounded-3xl border-gray-200 bg-white/90 backdrop-blur-md shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl mb-10 last:mb-0">
@@ -21,7 +19,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
                     {/* --- Cột Hình ảnh --- */}
                     <div className="col-span-10 flex flex-col items-center justify-center space-y-4 sm:col-span-6 relative h-full">
                         <img
-                            src={course.imgUrl} // Dữ liệu động
+                            src={course.imgUrl} 
                             alt={course.courseName}
                             className="h-full w-full object-cover rounded-2xl shadow-md transition duration-500"
                         />
@@ -33,10 +31,10 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
                         {/* Header: Giá & Tên */}
                         <div className="flex flex-col items-end gap-2">
                             <span className="rounded-2xl bg-red-700 px-3 py-1 text-base font-bold text-white hover:bg-red-800">
-                                {course.price} {/* Dữ liệu động */}
+                                {course.price} 
                             </span>
                             <span className="font-sans text-2xl font-semibold text-green-950">
-                                {course.courseName} {/* Dữ liệu động */}
+                                {course.courseName}
                             </span>
                         </div>
 
