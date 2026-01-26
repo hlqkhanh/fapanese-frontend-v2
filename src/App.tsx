@@ -1,58 +1,52 @@
-import { BrowserRouter, Route, Routes } from 'react-router'
-import LoginPage from './pages/auth/LoginPage'
-import SignUpPage from './pages/auth/SignUpPage'
-import HomePage from './pages/HomePage'
-import { Toaster } from "sonner"
-import VerifyOTPPage from './pages/auth/VerifyOTPPage'
+import { BrowserRouter, Route, Routes } from 'react-router'; // hoặc 'react-router-dom'
+import MainLayout from './layouts/MainLayout'; // Import layout vừa tạo
+import { ModalProvider } from './components/GlobalModal/ModalContext';
+import { Toaster } from 'sonner';
+import HomePage from './pages/admin/AdminPage';
+import CourseList from './pages/course/CoureListPage';
+import ProtectedRoute from './components/ProtectedRoute';
+import LoginPage from './pages/auth/LoginPage';
+import SignUpPage from './pages/auth/SignUpPage';
+import VerifyOTPPage from './pages/auth/VerifyOTPPage';
+import ForbiddenPage from './pages/other/ForbiddentPage';
+import NotFoundPage from './pages/other/NotFoundPage';
+import AdminPage from './pages/admin/AdminPage';
 
-// 1. Đảm bảo đã import đúng đường dẫn
-import { ModalProvider } from './components/GlobalModal/ModalContext'
-import ProtectedRoute from './components/ProtectedRoute'
-import { Header } from './components/Header'
-import Footer from './components/Footer'
-import CourseList from './pages/CoureListPage'
-import ForbiddenPage from './pages/ForbiddentPage'
+// ... các import khác giữ nguyên ...
+
 function App() {
-
   return (
     <>
-
-
-      <Toaster richColors position="top-center" />
+      <Toaster richColors position="top-center" offset="70px" />
 
       <BrowserRouter>
-        {/* 2. Bọc ModalProvider ở đây. 
-            Nó nằm trong BrowserRouter để sau này nếu Modal cần điều hướng (navigate) 
-            thì vẫn hoạt động tốt. 
-        */}
         <ModalProvider>
-          <Header />
+          {/* Xóa Header và Footer ở đây đi, vì nó đã nằm trong MainLayout */}
 
           <Routes>
+            {/* --- NHÓM 1: CÁC TRANG CÓ HEADER & FOOTER --- */}
+            <Route element={<MainLayout />}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/courses" element={<CourseList />} />
+              
+              {/* Protected Routes cũng cần Header thì nhét vào đây */}
+              <Route element={<ProtectedRoute />}>
+                 {/* Ví dụ: <Route path="/profile" element={<ProfilePage />} /> */}
+              </Route>
+            </Route>
 
-            {/* public routes */}
-            <Route path="/" element={<HomePage />} />
-
+            {/* --- NHÓM 2: CÁC TRANG KHÔNG CÓ HEADER/FOOTER (FULL SCREEN) --- */}
             <Route path='/login' element={<LoginPage />} />
             <Route path='/signup' element={<SignUpPage />} />
             <Route path='/verify-otp' element={<VerifyOTPPage />} />
-
-            <Route path="/courses" element={<CourseList />} />
-
             <Route path="/forbidden" element={<ForbiddenPage />} />
-
-            {/* protectect routes */}
-            <Route element={<ProtectedRoute />}>
-
-
-            </Route>
+            <Route path="*" element={<NotFoundPage />} />
+            <Route path="/admin" element={<AdminPage />} />
 
           </Routes>
 
-          <Footer />
         </ModalProvider>
       </BrowserRouter>
-
     </>
   )
 }
