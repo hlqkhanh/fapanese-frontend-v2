@@ -1,5 +1,6 @@
 import type { LoginUser } from "./loginUser";
 import type { Course, CoursePayload } from "./course";
+import type { Student, StudentPayload } from "./student";
 
 export interface AuthState {
     accessToken: string | null;
@@ -65,5 +66,23 @@ export interface CourseState {
     deleteCourse: (id: number) => Promise<void>;
     
     // Helper để reset state nếu cần (ví dụ khi rời trang)
+    reset: () => void;
+}
+
+export interface StudentState {
+    studentList: Student[];
+    selectedStudent: Student | null;
+    loading: boolean;
+
+    // Actions
+    fetchStudents: () => Promise<void>;
+    fetchStudentByEmail: (email: string) => Promise<void>;
+    
+    createStudent: (data: StudentPayload) => Promise<void>;
+    updateStudent: (email: string, data: StudentPayload) => Promise<void>;
+    deleteStudent: (email: string) => Promise<void>;
+    
+    uploadStudentExcel: (file: File) => Promise<void>;
+
     reset: () => void;
 }

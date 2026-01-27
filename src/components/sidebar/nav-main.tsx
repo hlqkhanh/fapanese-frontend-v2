@@ -1,5 +1,5 @@
+import { Link, useLocation } from "react-router-dom"
 import { IconCirclePlusFilled, IconMail, type Icon } from "@tabler/icons-react"
-
 import { Button } from "@/components/ui/button"
 import {
   SidebarGroup,
@@ -18,37 +18,57 @@ export function NavMain({
     icon?: Icon
   }[]
 }) {
+  const location = useLocation()
+
   return (
     <SidebarGroup>
-      <SidebarGroupContent className="flex flex-col gap-2">
+      <SidebarGroupContent className="flex flex-col gap-6">
+        {/* Phần Quick Create giữ nguyên */}
         <SidebarMenu>
           <SidebarMenuItem className="flex items-center gap-2">
             <SidebarMenuButton
               tooltip="Quick Create"
-              className="bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear"
+              className="bg-transparent text-primary-foreground hover:bg-primary/90 min-w-8"
             >
-              <IconCirclePlusFilled />
-              <span>Quick Create</span>
+              <IconCirclePlusFilled className="!size-5" />
+              <span className="font-medium">Quick Create</span>
             </SidebarMenuButton>
-            <Button
-              size="icon"
-              className="size-8 group-data-[collapsible=icon]:opacity-0"
-              variant="outline"
-            >
+            <Button size="icon" className="size-9" variant="outline">
               <IconMail />
-              <span className="sr-only">Inbox</span>
             </Button>
           </SidebarMenuItem>
         </SidebarMenu>
+
+        {/* Phần Menu Chính */}
         <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton tooltip={item.title}>
-                {item.icon && <item.icon />}
-                <span>{item.title}</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
+          <div className="flex flex-col gap-5">
+            {items.map((item) => {
+              // Logic check active (như cũ)
+              const isActive = location.pathname.includes(item.url)
+
+              return (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton
+                    tooltip={item.title}
+                    asChild
+                    isActive={isActive}
+                    className="
+                      h-[40px]
+                        data-[active=true]:bg-secondary
+                        data-[active=true]:text-black
+                      "
+                  >
+                    <Link to={item.url}>
+                      {item.icon && <item.icon className="!size-6" />}
+                      <span className={`text-base ${isActive ? "font-medium" : "font-normal"}`}>
+                        {item.title}
+                      </span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )
+            })}
+          </div>
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>

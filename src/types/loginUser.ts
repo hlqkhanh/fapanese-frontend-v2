@@ -15,5 +15,5 @@ export interface LoginUser {
     expertise: string | null;
     bio?: string | null;
 
-    roleName: string;
+    role: string;
 }

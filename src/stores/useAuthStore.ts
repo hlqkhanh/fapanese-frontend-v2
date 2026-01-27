@@ -21,6 +21,8 @@ export const useAuthStore = create<AuthState>()(
             try {
                 set({ loading: true });
 
+                localStorage.clear();
+
                 //  gọi api
                 const response = await authService.signUp(email, password, firstName, lastName, role, expertise, bio, dateOfBirth, campus);
 

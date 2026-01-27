@@ -22,7 +22,7 @@ export const mapUserToLoginUser = (user: User): LoginUser => {
     id: user.id,
     email: user.email,
     status: user.status,
-    roleName: roleName,
+    role: roleName,
 
     // --- Thông tin cá nhân (Lấy từ profileInfo) ---
     // Sử dụng optional chaining (?.) và Nullish coalescing (??) để an toàn

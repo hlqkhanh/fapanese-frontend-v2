@@ -25,7 +25,7 @@ const signInSchema = z.object({
 type SignInFormValues = z.infer<typeof signInSchema>;
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
-  const {login, sendOTP} = useAuthStore();  
+  const {login, sendOTP, loginUser} = useAuthStore();  
   const navigate = useNavigate();
   const [isForgotOpen, setIsForgotOpen] = useState(false);
   const notiModal = useModal();
@@ -54,7 +54,12 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
       await login(email, password);
 
       toast.success("Đăng nhập thành công");
-      navigate("/")
+      
+      if(loginUser?.role.includes('ADMIN'))
+        navigate("/admin")
+      else if(loginUser?.role.includes('STUDENT'))
+        navigate("/")
+
     } catch (error) {
       const err = error as AxiosError<{code: number, message: string }>;
 

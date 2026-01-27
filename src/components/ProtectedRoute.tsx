@@ -1,37 +1,51 @@
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useEffect, useState } from "react";
 import { OrbitProgress } from "react-loading-indicators";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { toast } from "sonner";
 
-// Định nghĩa props cho component
 interface ProtectedRouteProps {
-  allowedRoles?: string[]; // Mảng các role được phép, ví dụ: ["ADMIN", "LECTURER"]
+  allowedRoles?: string[];
 }
 
 const ProtectedRoute = ({ allowedRoles = [] }: ProtectedRouteProps) => {
-  const { accessToken, loginUser, loading, refresh, fetchMe } = useAuthStore();
+  // Lấy trực tiếp state từ store để đảm bảo reactive
+  const accessToken = useAuthStore((state) => state.accessToken);
+  const loginUser = useAuthStore((state) => state.loginUser);
+  const refresh = useAuthStore((state) => state.refresh);
+  const fetchMe = useAuthStore((state) => state.fetchMe);
+
   const [starting, setStarting] = useState(true);
-  const location = useLocation(); // Lấy vị trí hiện tại để redirect lại sau khi login nếu cần
 
   useEffect(() => {
     let mounted = true;
 
     const init = async () => {
-      // 1. Nếu chưa có token thì thử refresh
-      if (!accessToken) {
-        await refresh();
-      }
+      try {
+        // Lấy state hiện tại (không qua hook để tránh closure stale)
+        const currentToken = useAuthStore.getState().accessToken;
 
-      // 2. Nếu có token (sau khi refresh hoặc có sẵn) mà chưa có info user -> Fetch profile
-      // Lưu ý: Lấy state mới nhất từ store sau khi refresh
-      const currentToken = useAuthStore.getState().accessToken;
-      if (currentToken && !useAuthStore.getState().loginUser) {
-        await fetchMe();
-      }
+        // 1. Nếu chưa có token thì thử refresh
+        if (!currentToken) {
+          await refresh();
+        }
 
-      if (mounted) {
-        setStarting(false);
+        // 2. Kiểm tra lại sau khi refresh (hoặc có sẵn token)
+        const updatedToken = useAuthStore.getState().accessToken;
+        const currentUser = useAuthStore.getState().loginUser;
+
+        // Nếu có token mà chưa có user info thì fetch
+        if (updatedToken && !currentUser) {
+          await fetchMe();
+        }
+      } catch (error) {
+        // Bắt lỗi để không chặn luồng chạy (lỗi đã được xử lý trong store rồi)
+        console.log("Auth check encountered an error, proceeding to render logic..." + error);
+      } finally {
+        // QUAN TRỌNG: Luôn tắt trạng thái starting dù thành công hay thất bại
+        if (mounted) {
+          setStarting(false);
+        }
       }
     };
 
@@ -40,10 +54,10 @@ const ProtectedRoute = ({ allowedRoles = [] }: ProtectedRouteProps) => {
     return () => {
       mounted = false;
     };
-  }, []); // Dependency rỗng để chỉ chạy 1 lần khi mount (logic refresh đã xử lý trong store)
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // 1. Màn hình Loading
-  if (starting || loading) {
+  // 1. Màn hình Loading (chỉ hiện khi đang khởi tạo hoặc store đang load)
+  if (starting) {
     return (
       <div className="flex h-screen items-center justify-center bg-gray-50">
         <OrbitProgress dense color="#3b82f6" size="medium" text="" textColor="" />
@@ -51,20 +65,11 @@ const ProtectedRoute = ({ allowedRoles = [] }: ProtectedRouteProps) => {
     );
   }
 
-  // 2. Check Đăng nhập: Nếu không có token -> Đá về Login
-  if (!accessToken) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+  if (!accessToken || !loginUser || !allowedRoles.includes(loginUser.role)) {
+    toast.error("Bạn không có quyền truy cập trang này!");
+    return <Navigate to="/forbidden" replace />;
   }
 
-  // 3. Check Phân quyền (Authorization)
-  // Nếu có truyền allowedRoles VÀ user hiện tại không nằm trong list đó
-  if (allowedRoles.length > 0 && loginUser) {
-    if (!allowedRoles.includes(loginUser.roleName)) {
-      toast.error("Bạn không có quyền truy cập trang này!");
-      
-      return <Navigate to="/forbidden" replace />;
-    }
-  }
 
   // 4. Nếu thỏa mãn tất cả -> Render nội dung
   return <Outlet />;

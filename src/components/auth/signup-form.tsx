@@ -234,11 +234,11 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                         <SelectValue placeholder="Chọn Campus" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="Quynhon">Quy Nhơn</SelectItem>
-                        <SelectItem value="Hanoi">Hà Nội</SelectItem>
-                        <SelectItem value="HCM">TP. Hồ Chí Minh</SelectItem>
-                        <SelectItem value="Danang">Đà Nẵng</SelectItem>
-                        <SelectItem value="Cantho">Cần Thơ</SelectItem>
+                        <SelectItem value="Quy Nhơn">Quy Nhơn</SelectItem>
+                        <SelectItem value="Hà Nội">Hà Nội</SelectItem>
+                        <SelectItem value="TP. Hồ Chí Minh">TP. Hồ Chí Minh</SelectItem>
+                        <SelectItem value="Đà Nẵng">Đà Nẵng</SelectItem>
+                        <SelectItem value="Cần Thơ">Cần Thơ</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
