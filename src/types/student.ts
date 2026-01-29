@@ -15,6 +15,14 @@ export interface Student {
   status: UserStatus; // <--- Dùng type vừa tạo
 }
 
+export interface PaginatedResult<T> {
+    content: T[];          // Danh sách dữ liệu chính
+    totalPages: number;    // Tổng số trang
+    totalElements: number; // Tổng số bản ghi
+    size: number;
+    number: number;        // Trang hiện tại
+}
+
 // 2. Dữ liệu gửi lên khi Tạo/Sửa (Request Body)
 export interface StudentPayload {
   firstName: string;
@@ -41,7 +49,7 @@ export interface ApiResponse<T> {
 }
 
 // 5. Các Type cụ thể dùng cho Service
-export type StudentListResponse = ApiResponse<Student[]>;       // GET /api/students
+export type StudentListResponse = ApiResponse<PaginatedResult<Student>>;       // GET /api/students
 export type StudentDetailResponse = ApiResponse<Student>;       // GET /{email}, POST, PUT
 export type StudentDeleteResponse = ApiResponse<object>;        // DELETE
 export type StudentUploadResponse = ApiResponse<UploadExcelResult>; // POST /upload-excel

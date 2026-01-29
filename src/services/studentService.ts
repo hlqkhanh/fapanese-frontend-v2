@@ -1,4 +1,5 @@
 import api from "@/lib/axios";
+import type { StudentSearchParams } from "@/types/store";
 import type { 
   StudentPayload, 
   StudentListResponse, 
@@ -10,8 +11,8 @@ import type {
 const BASE_URL = "/students";
 
 export const studentService = {
-  async fetchAll(): Promise<StudentListResponse> {
-    const res = await api.get(BASE_URL);
+  async fetchAll(params?: StudentSearchParams): Promise<StudentListResponse> {
+    const res = await api.get(BASE_URL, { params });
     return res.data;
   },
 

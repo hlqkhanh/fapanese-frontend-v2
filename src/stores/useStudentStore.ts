@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { StudentState } from "@/types/store";
+import type { StudentSearchParams, StudentState } from "@/types/store";
 import { toast } from "sonner";
 import { studentService } from "@/services/studentService";
 import type { AxiosError } from "axios";
@@ -9,15 +9,22 @@ export const useStudentStore = create<StudentState>((set, get) => ({
     selectedStudent: null,
     loading: false,
 
+    totalElements: 0,
+    totalPages: 0,
+
     reset: () => {
-        set({ studentList: [], selectedStudent: null, loading: false });
+        set({ studentList: [], selectedStudent: null, loading: false, totalElements: 0, totalPages: 0});
     },
 
-    fetchStudents: async () => {
+    fetchStudents: async (params?: StudentSearchParams) => {
         try {
             set({ loading: true });
-            const response = await studentService.fetchAll();
-            set({ studentList: response.result });
+            const response = await studentService.fetchAll(params);
+            set({ 
+                studentList: response.result.content, 
+                totalElements: response.result.totalElements,
+                totalPages: response.result.totalPages
+            });
         } catch (error) {
             console.error("Fetch students error:", error);
             const err = error as AxiosError<{ code: number, message: string }>;

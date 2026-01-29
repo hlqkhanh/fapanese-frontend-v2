@@ -73,9 +73,12 @@ export interface StudentState {
     studentList: Student[];
     selectedStudent: Student | null;
     loading: boolean;
+    
+    totalElements: number;
+    totalPages: number;
 
     // Actions
-    fetchStudents: () => Promise<void>;
+    fetchStudents: (params?: StudentSearchParams) => Promise<void>;
     fetchStudentByEmail: (email: string) => Promise<void>;
     
     createStudent: (data: StudentPayload) => Promise<void>;
@@ -85,4 +88,14 @@ export interface StudentState {
     uploadStudentExcel: (file: File) => Promise<void>;
 
     reset: () => void;
+}
+
+export interface StudentSearchParams {
+    page?: number;
+    size?: number;
+    keyword?: string;
+    campus?: string;
+    status?: number;
+    sortDir?: string;
+    sortBy?: string;
 }
