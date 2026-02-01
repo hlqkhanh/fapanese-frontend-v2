@@ -1,3 +1,5 @@
+import type { ApiResponse } from "./common";
+
 // 1. Định nghĩa đối tượng Course (Khớp với "result" trong API)
 export interface Course {
   id: number;
@@ -23,13 +25,6 @@ export interface CoursePayload {
   duration: string;
 }
 
-// 3. Generic Wrapper cho Response (Dựa trên Schema chung của API)
-// { "code": 0, "message": "string", "result": T }
-export interface ApiResponse<T> {
-  code: number;
-  message: string;
-  result: T;
-}
 
 // 4. Các Type cụ thể dùng cho Service (để code dễ đọc)
 export type CourseListResponse = ApiResponse<Course[]>;      // Cho GET /api/courses

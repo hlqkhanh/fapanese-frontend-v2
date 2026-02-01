@@ -1,6 +1,7 @@
 import type { LoginUser } from "./loginUser";
 import type { Course, CoursePayload } from "./course";
-import type { Student, StudentPayload } from "./student";
+import type { Student, StudentPayload, StudentSearchParams } from "./student";
+import type { Lecturer, LecturerPayload, LecturerSearchParams } from "./lecturer";
 
 export interface AuthState {
     accessToken: string | null;
@@ -90,12 +91,25 @@ export interface StudentState {
     reset: () => void;
 }
 
-export interface StudentSearchParams {
-    page?: number;
-    size?: number;
-    keyword?: string;
-    campus?: string;
-    status?: number;
-    sortDir?: string;
-    sortBy?: string;
+export interface LecturerState {
+    lecturerList: Lecturer[];
+    selectedLecturer: Lecturer | null;
+    loading: boolean;
+    
+    totalElements: number;
+    totalPages: number;
+
+    // Actions chính
+    fetchLecturers: (params?: LecturerSearchParams) => Promise<void>;
+    fetchLecturerByEmail: (email: string) => Promise<void>;
+    createLecturer: (data: LecturerPayload) => Promise<void>;
+    updateLecturer: (email: string, data: LecturerPayload) => Promise<void>;
+    deleteLecturer: (email: string) => Promise<void>;
+    
+    // Actions đặc thù cho Giảng viên (Duyệt/Từ chối)
+    approveLecturer: (id: string) => Promise<void>;
+    rejectLecturer: (id: string) => Promise<void>;
+    fetchPendingLecturers: () => Promise<void>;
+
+    reset: () => void;
 }

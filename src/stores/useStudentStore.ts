@@ -1,8 +1,9 @@
 import { create } from "zustand";
-import type { StudentSearchParams, StudentState } from "@/types/store";
 import { toast } from "sonner";
 import { studentService } from "@/services/studentService";
 import type { AxiosError } from "axios";
+import type { StudentState } from "@/types/store";
+import type { StudentSearchParams } from "@/types/student";
 
 export const useStudentStore = create<StudentState>((set, get) => ({
     studentList: [],

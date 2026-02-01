@@ -1,3 +1,4 @@
+import type { ApiResponse, PaginatedResult } from "./common";
 import type { UserStatus } from "./userStatus";
 
 // 1. Định nghĩa đối tượng Student (Khớp với "result" trong API GET)
@@ -15,13 +16,7 @@ export interface Student {
   status: UserStatus; // <--- Dùng type vừa tạo
 }
 
-export interface PaginatedResult<T> {
-    content: T[];          // Danh sách dữ liệu chính
-    totalPages: number;    // Tổng số trang
-    totalElements: number; // Tổng số bản ghi
-    size: number;
-    number: number;        // Trang hiện tại
-}
+
 
 // 2. Dữ liệu gửi lên khi Tạo/Sửa (Request Body)
 export interface StudentPayload {
@@ -41,12 +36,16 @@ export interface UploadExcelResult {
   errorMessages: string[];
 }
 
-// 4. Generic Wrapper cho Response (Tận dụng lại nếu đã có trong file common, nếu chưa thì khai báo)
-export interface ApiResponse<T> {
-  code: number;
-  message: string;
-  result: T;
+export interface StudentSearchParams {
+    page?: number;
+    size?: number;
+    keyword?: string;
+    campus?: string;
+    status?: number;
+    sortDir?: string;
+    sortBy?: string;
 }
+
 
 // 5. Các Type cụ thể dùng cho Service
 export type StudentListResponse = ApiResponse<PaginatedResult<Student>>;       // GET /api/students

@@ -13,6 +13,8 @@ import DashboardPage from './pages/admin/DashboardPage';
 import AdminLayout from './layouts/AdminLayout';
 import HomePage from './pages/HomePage';
 import StudentManagePage from './pages/admin/StudentManagePage';
+import LecturerManagePage from './pages/admin/LecturerManagePage';
+import CourseManagePage from './pages/admin/CourseManagePage';
 
 // ... các import khác giữ nguyên ...
 
@@ -47,8 +49,8 @@ function App() {
                 
                 <Route path="dashboard" element={<DashboardPage />} />
                 <Route path="students" element={<StudentManagePage/>} />
-                <Route path="teachers" element={<div>Trang Lecturer</div>} />
-                <Route path="courses" element={<div>Trang Khóa học</div>} />
+                <Route path="teachers" element={<LecturerManagePage/>} />
+                <Route path="courses" element={<CourseManagePage/>} />
               </Route>
 
             </Route>

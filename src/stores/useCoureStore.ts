@@ -3,6 +3,7 @@ import type { CourseState } from "@/types/store";
 import { toast } from "sonner";
 import { courseService } from "@/services/courseService";
 import type { AxiosError } from "axios";
+import { fileService } from "@/services/fileService";
 
 
 export const useCourseStore = create<CourseState>((set, get) => ({
@@ -104,6 +105,18 @@ export const useCourseStore = create<CourseState>((set, get) => ({
     deleteCourse: async (id) => {
         try {
             set({ loading: true });
+
+            const currentCourse = get().courseList.find(c => c.id === id);
+            if (currentCourse?.imgUrl) {
+            try {
+                await fileService.deleteFileByUrl(currentCourse.imgUrl);
+                console.log("Đã xóa ảnh trên Cloudinary thành công");
+            } catch (fileErr) {
+                // Nếu xóa ảnh lỗi (ví dụ file ko tồn tại), vẫn cho phép tiếp tục xóa khóa học
+                console.warn("Không thể xóa ảnh trên Cloudinary:", fileErr);
+            }
+        }
+
             await courseService.delete(id);
 
             toast.success("Xóa khóa học thành công");

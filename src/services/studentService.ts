@@ -1,11 +1,11 @@
 import api from "@/lib/axios";
-import type { StudentSearchParams } from "@/types/store";
 import type { 
   StudentPayload, 
   StudentListResponse, 
   StudentDetailResponse, 
   StudentDeleteResponse,
-  StudentUploadResponse
+  StudentUploadResponse,
+  StudentSearchParams
 } from "@/types/student";
 
 const BASE_URL = "/students";
