@@ -1,15 +1,19 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
 import type { Course } from "@/types/course";
-
-
 
 interface CourseCardProps {
     course: Course;
 }
 
 const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
+    const navigate = useNavigate();
+
+    const handleStartCourse = () => {
+        // Navigate to course detail page to show lesson list
+        navigate(`/course/${course.id}`);
+    };
     
     return (
         <Card className="relative group overflow-hidden rounded-3xl border-gray-200 bg-white/90 backdrop-blur-md shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl mb-10 last:mb-0">
@@ -57,12 +61,10 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
 
                         {/* Button Action */}
                         <Button
-                            asChild
+                            onClick={handleStartCourse}
                             className="h-auto rounded-3xl border border-[#B2EBF2] bg-gradient-to-r from-[#9bced5] to-[#9cdfe8] px-10 py-2 text-lg font-bold text-white shadow-lg hover:opacity-90 hover:shadow-xl"
                         >
-                            <Link to={`/courses/${course.id}`}>
-                                BẮT ĐẦU HỌC!
-                            </Link>
+                            BẮT ĐẦU HỌC!
                         </Button>
                     </div>
                 </div>

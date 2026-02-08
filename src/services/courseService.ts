@@ -27,5 +27,16 @@ export const courseService = {
   async delete(id: number): Promise<CourseDeleteResponse> {
     const res = await api.delete(`${BASE_URL}/${id}`);
     return res.data;
-  }
+  },
+
+  // Alias for fetchById (for consistency with other services)
+  async getById(id: number): Promise<CourseDetailResponse> {
+    return this.fetchById(id);
+  },
+
+  // Get course by code (for overview navigation)
+  async getByCode(code: string): Promise<CourseDetailResponse> {
+    const res = await api.get(`${BASE_URL}/code/${code}`);
+    return res.data;
+  },
 };

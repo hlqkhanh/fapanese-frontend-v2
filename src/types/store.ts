@@ -3,6 +3,9 @@ import type { Course, CoursePayload } from "./course";
 import type { Student, StudentPayload, StudentSearchParams } from "./student";
 import type { Lecturer, LecturerPayload, LecturerSearchParams } from "./lecturer";
 
+// Re-export for convenience
+export type { StudentSearchParams, LecturerSearchParams };
+
 export interface AuthState {
     accessToken: string | null;
     loginUser: LoginUser | null;
