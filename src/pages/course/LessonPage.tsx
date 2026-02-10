@@ -1,7 +1,15 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, BookOpen } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 import NavTabButtons from "@/components/course/NavTabButtons";
 import VocabularyTable from "@/components/course/VocabularyTable";
@@ -33,6 +41,7 @@ const LessonPage = () => {
   // UI State
   const [activeTab, setActiveTab] = useState<"lesson" | "exercise">("lesson");
   const [contentType, setContentType] = useState<"vocab" | "grammar">("vocab");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // Refs
   const navRef = useRef<HTMLDivElement>(null);
@@ -152,7 +161,7 @@ const LessonPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-[#f8fdfe] to-[#e6f7f9] flex justify-center py-5">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-[#f8fdfe] to-[#e6f7f9] flex justify-center py-2 md:py-5">
       {/* Floating Nav Bar */}
       <FloatingNavBar
         show={showFloatingNav}
@@ -167,9 +176,9 @@ const LessonPage = () => {
       />
 
       {/* Main Container */}
-      <div className="flex-1 flex flex-col lg:flex-row max-w-7xl py-10 px-6">
+      <div className="flex-1 flex flex-col lg:flex-row max-w-7xl py-4 md:py-10 px-4 md:px-6">
         {/* Left Column - Main Content */}
-        <div className="lg:w-3/4 pr-0 lg:pr-8 space-y-4">
+        <div className="w-full lg:w-3/4 lg:pr-8 space-y-4">
           {/* Simple Back Button */}
           <Link
             to={courseId ? `/course/${courseId}` : `/courses`}
@@ -179,11 +188,11 @@ const LessonPage = () => {
             Quay lại khóa học
           </Link>
 
-          <div ref={navRef} className="mb-6">
+          <div ref={navRef} className="mb-4 md:mb-6">
             <NavTabButtons activeTab={activeTab} onTabChange={setActiveTab} />
           </div>
 
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-100 overflow-hidden min-h-[450px]">
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-100 overflow-hidden min-h-[300px] md:min-h-[450px]">
             <AnimatePresence mode="wait">
               {activeTab === "lesson" ? (
                 <motion.div
@@ -214,12 +223,41 @@ const LessonPage = () => {
           </div>
         </div>
 
-        {/* Right Column - Sidebar */}
-        <LessonSidebar
-          lesson={lesson}
-          activeContent={contentType}
-          onContentSwitch={handleSwitchContent}
-        />
+        {/* Right Column - Sidebar - Hidden on mobile for now, will be replaced with bottom sheet */}
+        <div className="hidden lg:block">
+          <LessonSidebar
+            lesson={lesson}
+            activeContent={contentType}
+            onContentSwitch={handleSwitchContent}
+          />
+        </div>
+
+        {/* Mobile Sidebar Sheet */}
+        <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
+          <SheetTrigger asChild>
+            <Button
+              className="fixed bottom-20 right-4 lg:hidden z-40 rounded-full w-14 h-14 shadow-lg bg-cyan-600 hover:bg-cyan-700"
+              size="icon"
+            >
+              <BookOpen className="h-6 w-6" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="bottom" className="h-[85vh] overflow-y-auto">
+            <SheetHeader>
+              <SheetTitle>Nội dung bài học</SheetTitle>
+            </SheetHeader>
+            <div className="mt-4">
+              <LessonSidebar
+                lesson={lesson}
+                activeContent={contentType}
+                onContentSwitch={(type) => {
+                  handleSwitchContent(type);
+                  setIsSidebarOpen(false);
+                }}
+              />
+            </div>
+          </SheetContent>
+        </Sheet>
       </div>
     </div>
   );

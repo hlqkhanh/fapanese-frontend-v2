@@ -8,10 +8,6 @@ interface GrammarContentProps {
 }
 
 const GrammarContent = ({ grammars, loading = false, lessonPartId }: GrammarContentProps) => {
-  const PRIMARY_TEAL = "text-[#00ACC1]";
-  const STRUCTURE_GREEN = "text-[#00796B]";
-  const EXAMPLE_BG_LIGHT = "bg-[#E0F7FA]";
-  const BORDER_TEAL = "border-[#00ACC1]";
 
   if (loading) {
     return (
@@ -30,85 +26,84 @@ const GrammarContent = ({ grammars, loading = false, lessonPartId }: GrammarCont
   }
 
   return (
-    <div className="p-10 lg:p-14 space-y-12 bg-gray-50 min-h-screen">
+    <div className="p-4 md:p-8 lg:p-12 space-y-6 md:space-y-10 bg-gray-50 min-h-screen">
       <div className="max-w-4xl mx-auto">
         <h1
-          className={`text-4xl lg:text-4xl font-extrabold text-gray-900 pb-3 mb-10 
-                       border-b-4 ${BORDER_TEAL} tracking-tight`}
+          className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-gray-900 pb-3 mb-6 md:mb-10 
+                     border-b-4 border-cyan-500 tracking-tight"
         >
-          Ngữ pháp - Bài học {lessonPartId}
+          Ngữ pháp {lessonPartId && `- Bài học ${lessonPartId}`}
         </h1>
 
-        <div className="space-y-10">
+        <div className="space-y-6 md:space-y-8">
           {grammars.map((grammar, index) => (
             <motion.div
               key={grammar.id}
-              className="bg-white rounded-3xl p-8 shadow-xl ring-1 ring-gray-100 
-                         hover:shadow-2xl hover:ring-2 hover:ring-[#00ACC1]/50 
-                         hover:translate-y-[-2px] transition-all duration-500 ease-out"
-              initial={{ opacity: 0, y: 40 }}
+              className="bg-white rounded-2xl p-5 md:p-7 shadow-lg border border-gray-100
+                         hover:shadow-xl transition-all duration-300"
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
                 delay: index * 0.08,
                 type: "spring",
-                stiffness: 120,
-                damping: 18,
+                stiffness: 100,
+                damping: 15,
               }}
             >
-              <h2
-                className={`text-3xl font-bold ${PRIMARY_TEAL} border-b border-gray-100 pb-3 mb-5`}
-              >
+              {/* Grammar Title */}
+              <h2 className="text-xl md:text-2xl font-bold text-cyan-600 border-b border-gray-100 pb-3 mb-4">
                 {grammar.title}
               </h2>
-              <p className="text-gray-700 mb-6 leading-relaxed text-base">
+
+              {/* Explanation */}
+              <p className="text-gray-700 mb-5 leading-relaxed text-sm md:text-base">
                 {grammar.explanation}
               </p>
 
+              {/* Grammar Details */}
               {grammar.details?.map((detail, idx) => (
                 <div
                   key={idx}
-                  className="border-t border-gray-200 pt-6 mt-6 space-y-4"
+                  className="border-t border-gray-200 pt-5 mt-5 space-y-4"
                 >
-                  <p className="font-semibold text-gray-800 flex items-center">
-                    <svg
-                      className={`w-5 h-5 mr-3 ${STRUCTURE_GREEN}`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-                      ></path>
-                    </svg>
-                    Cấu trúc:{" "}
-                    <span
-                      className={`ml-3 ${STRUCTURE_GREEN} font-mono ${EXAMPLE_BG_LIGHT} px-3 py-1 rounded-lg text-1xl shadow-inner`}
-                    >
-                      {detail.structure}
-                    </span>
-                  </p>
+                  {/* Structure */}
+                  <div className="space-y-2">
+                    <p className="text-xs md:text-sm font-semibold text-gray-600 uppercase tracking-wide">
+                      Cấu trúc
+                    </p>
+                    <div className="bg-gray-50 rounded-lg px-4 py-3 border-l-4 border-cyan-500">
+                      <p className="font-mono text-base md:text-lg font-semibold text-cyan-700">
+                        {detail.structure}
+                      </p>
+                    </div>
+                  </div>
 
-                  <p className="text-gray-600">
-                    Ý nghĩa:{" "}
-                    <span className="font-medium text-gray-800">
+                  {/* Meaning */}
+                  <div className="space-y-2">
+                    <p className="text-xs md:text-sm font-semibold text-gray-600 uppercase tracking-wide">
+                      Ý nghĩa
+                    </p>
+                    <p className="text-sm md:text-base font-medium text-gray-800 pl-4 border-l-2 border-gray-300">
                       {detail.meaning}
-                    </span>
-                  </p>
+                    </p>
+                  </div>
 
-                  <div
-                    className={`${EXAMPLE_BG_LIGHT} rounded-xl p-5 border-l-4 ${BORDER_TEAL} shadow-md`}
-                  >
-                    <p className="whitespace-pre-line text-lg font-medium text-gray-900">
-                      {detail.exampleSentence}
+                  {/* Example */}
+                  <div className="space-y-2">
+                    <p className="text-xs md:text-sm font-semibold text-gray-600 uppercase tracking-wide">
+                      Ví dụ
                     </p>
-                    <p className="text-gray-500 text-sm mt-3 border-t border-gray-200 pt-2">
-                      <span className="font-bold">Dịch nghĩa:</span>{" "}
-                      {detail.exampleMeaning}
-                    </p>
+                    <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl p-4 md:p-5 border border-cyan-100">
+                      <p className="whitespace-pre-line text-base md:text-lg font-medium text-gray-900 mb-3">
+                        {detail.exampleSentence}
+                      </p>
+                      <div className="border-t border-cyan-200 pt-3">
+                        <p className="text-gray-600 text-sm md:text-base">
+                          <span className="font-semibold text-cyan-700">Dịch:</span>{" "}
+                          {detail.exampleMeaning}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               ))}
