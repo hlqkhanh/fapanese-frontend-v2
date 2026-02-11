@@ -22,40 +22,6 @@ const initialFormData: StudentPayload = {
   dateOfBirth: "",
   campus: "",
   status: UserStatus.UNVERIFIED_EMAIL,
-
-// Import Store & Types
-import { useStudentStore } from "@/stores/useStudentStore";
-import { type Student, type StudentPayload, type StudentSearchParams } from "@/types/student";
-import { UserStatus } from "@/types/userStatus";
-
-// Import UI Components
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-
-// Helper hook debounce
-function useDebounce<T>(value: T, delay: number): T {
-    const [debouncedValue, setDebouncedValue] = useState<T>(value);
-    useEffect(() => {
-        const handler = setTimeout(() => setDebouncedValue(value), delay);
-        return () => clearTimeout(handler);
-    }, [value, delay]);
-    return debouncedValue;
-}
-
-const getStatusBadge = (status: number) => {
-    switch (status) {
-        case UserStatus.REJECTED: return <Badge variant="destructive">Vô hiệu hóa</Badge>;
-        case UserStatus.UNVERIFIED_EMAIL: return <Badge variant="secondary" className="bg-gray-400 text-white">Chưa xác thực</Badge>;
-        case UserStatus.VERIFIED_UNACTIVE: return <Badge className="bg-yellow-500 hover:bg-yellow-600">Chờ kích hoạt</Badge>;
-        case UserStatus.PENDING_APPROVAL: return <Badge className="bg-orange-500 hover:bg-orange-600">Chờ duyệt</Badge>;
-        case UserStatus.ACTIVE: return <Badge className="bg-green-600 hover:bg-green-700">Hoạt động</Badge>;
-        default: return <Badge variant="outline">Không rõ</Badge>;
-    }
 };
 
 export default function StudentManagePage() {

@@ -26,8 +26,7 @@ const signInSchema = z.object({
 type SignInFormValues = z.infer<typeof signInSchema>;
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
-  const { login, sendOTP, loginUser, loginGoogle } = useAuthStore();
-  const { login, sendOTP } = useAuthStore();
+  const { login, sendOTP, loginGoogle } = useAuthStore();
   const navigate = useNavigate();
   const [isForgotOpen, setIsForgotOpen] = useState(false);
   const notiModal = useModal();
@@ -36,6 +35,15 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
     resolver: zodResolver(signInSchema),
   });
 
+
+  const handleNavigate = () => {
+    // Lấy state mới nhất trực tiếp từ store để tránh delay update của React state
+    const currentUser = useAuthStore.getState().loginUser;
+    
+    if (currentUser?.role.includes('ADMIN')) navigate("/admin");
+    else if (currentUser?.role.includes('STUDENT')) navigate("/");
+    else navigate("/"); // Mặc định
+  };
 
   const handleSendOTP = async (email: string) => {
     try {
@@ -57,15 +65,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
 
       toast.success("Đăng nhập thành công");
 
-      if (loginUser?.role.includes('ADMIN'))
-        navigate("/admin")
-      else if (loginUser?.role.includes('STUDENT'))
-      const updatedUser = useAuthStore.getState().loginUser;
-
-      if (updatedUser?.role.includes('ADMIN'))
-        navigate("/admin")
-      else if (updatedUser?.role.includes('STUDENT'))
-        navigate("/")
+      handleNavigate();
 
     } catch (error) {
       const err = error as AxiosError<{ code: number, message: string }>;
@@ -81,14 +81,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
 
   };
 
-  const handleNavigate = () => {
-    // Lấy state mới nhất trực tiếp từ store để tránh delay update của React state
-    const currentUser = useAuthStore.getState().loginUser;
-    
-    if (currentUser?.role.includes('ADMIN')) navigate("/admin");
-    else if (currentUser?.role.includes('STUDENT')) navigate("/");
-    else navigate("/"); // Mặc định
-  };
+
 
   // --- XỬ LÝ LOGIN GOOGLE ---
   const handleGoogleSuccess = async (credentialResponse: CredentialResponse) => {
