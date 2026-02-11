@@ -10,9 +10,13 @@ import { toast } from "sonner";
 // });
 
 const api = axios.create({
-  baseURL: import.meta.env.MODE === 'development' ? "https://fapanese-web.onrender.com/fapanese/api" : "/fapanese/api",
+  baseURL:
+    import.meta.env.MODE === 'development'
+      ? "http://localhost:8080/fapanese/api"
+      : "https://fapanese-web.onrender.com/fapanese/api",
   withCredentials: true,
 });
+;
 
 
 
