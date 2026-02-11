@@ -124,7 +124,7 @@ const CourseDetailPage = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-[#f8fdfe] to-[#e6f7f9] flex items-center justify-center">
-        <Loader2 className="h-12 w-12 animate-spin text-[#00BCD4]" />
+        <Loader2 className="h-12 w-12 animate-spin text-primary" />
       </div>
     );
   }
@@ -143,7 +143,7 @@ const CourseDetailPage = () => {
         {/* Simple Back Button */}
         <Link
           to="/courses"
-          className="inline-flex items-center text-gray-600 hover:text-cyan-600 transition-colors text-sm font-medium group mb-6"
+          className="inline-flex items-center text-gray-600 hover:text-primary transition-colors text-sm font-medium group mb-6"
         >
           <ArrowLeft className="mr-1.5 h-4 w-4 group-hover:translate-x-[-2px] transition-transform" />
           Quay lại danh sách khóa học
@@ -166,7 +166,7 @@ const CourseDetailPage = () => {
                 {course.courseName}
               </h1>
               <div className="flex items-center gap-4 mb-4">
-                <span className="px-4 py-1.5 bg-gradient-to-r from-[#00BCD4] to-[#4DD0E1] text-white font-bold rounded-full text-sm">
+                <span className="px-4 py-1.5 bg-gradient-primary text-white font-bold rounded-full text-sm">
                   {course.code}
                 </span>
                 <span className="px-4 py-1.5 bg-red-600 text-white font-semibold rounded-full text-sm">
@@ -177,7 +177,7 @@ const CourseDetailPage = () => {
                 {course.description}
               </p>
               <div className="flex items-center gap-2 text-gray-700">
-                <FaClock className="text-[#00BCD4]" />
+                <FaClock className="text-primary" />
                 <span className="font-medium">Thời lượng: {course.duration}</span>
               </div>
             </div>
@@ -187,7 +187,7 @@ const CourseDetailPage = () => {
         {/* Lessons List */}
         <div className="space-y-4">
           <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-            <FaBook className="text-[#00BCD4]" />
+            <FaBook className="text-primary" />
             Danh sách bài học
           </h2>
 
@@ -209,7 +209,7 @@ const CourseDetailPage = () => {
                 >
                   <div className="flex items-center gap-6 p-6">
                     {/* Lesson Number */}
-                    <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-[#00BCD4] to-[#4DD0E1] rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300">
+                    <div className="flex-shrink-0 w-16 h-16 bg-gradient-primary rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300">
                       <span className="text-2xl font-bold text-white">
                         {index + 1}
                       </span>
@@ -217,7 +217,7 @@ const CourseDetailPage = () => {
 
                     {/* Lesson Info */}
                     <div className="flex-1">
-                      <h3 className="text-xl font-bold text-gray-900 mb-1 group-hover:text-[#00BCD4] transition-colors">
+                      <h3 className="text-xl font-bold text-gray-900 mb-1 group-hover:text-primary transition-colors">
                         {lesson.lessonTitle}
                       </h3>
                       {lesson.description && (
@@ -231,7 +231,7 @@ const CourseDetailPage = () => {
                     <Button
                       onClick={() => handleStartLesson(lesson)}
                       disabled={startingLesson === lesson.id}
-                      className="flex-shrink-0 h-auto rounded-2xl bg-gradient-to-r from-[#00BCD4] to-[#4DD0E1] px-6 py-3 text-white font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100"
+                      className="flex-shrink-0 h-auto rounded-2xl bg-gradient-primary px-6 py-3 text-white font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100"
                     >
                       {startingLesson === lesson.id ? (
                         <>
@@ -261,7 +261,7 @@ const CourseDetailPage = () => {
             className="mt-12"
           >
             <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-              <BookMarked className="text-[#00BCD4]" />
+              <BookMarked className="text-primary" />
               Tổng ôn
             </h2>
             
@@ -282,22 +282,22 @@ const CourseDetailPage = () => {
                   toast.error("Không thể tải tổng ôn!");
                 }
               }}
-              className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 rounded-3xl shadow-2xl p-8 cursor-pointer hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-[1.02] group"
+              className="bg-white border border-gray-200 rounded-2xl shadow-sm p-8 cursor-pointer hover:shadow-md hover:border-primary/30 transition-all duration-200 group"
             >
               <div className="flex items-center justify-between">
                 <div className="flex-1">
-                  <h3 className="text-3xl font-bold text-white mb-3">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">
                     {overview.title || "Ôn luyện tổng hợp"}
                   </h3>
-                  <p className="text-white/90 text-lg mb-4">
+                  <p className="text-gray-600 text-base mb-4">
                     {overview.description || "Luyện tập Speaking, làm đề thi giữa kỳ và cuối kỳ để củng cố kiến thức."}
                   </p>
-                  <Button className="bg-white text-purple-600 hover:bg-gray-100 font-bold px-6 py-2.5 rounded-full shadow-lg group-hover:shadow-xl transition-all">
+                  <Button className="bg-primary text-white hover:opacity-90 font-semibold px-5 py-2 rounded-lg transition-all">
                     Bắt đầu ôn tập →
                   </Button>
                 </div>
-                <div className="hidden md:flex items-center justify-center w-32 h-32 bg-white/20 rounded-full backdrop-blur-sm group-hover:scale-110 transition-transform duration-300">
-                  <BookMarked className="h-16 w-16 text-white" />
+                <div className="hidden md:flex items-center justify-center w-24 h-24 bg-gray-50 rounded-full group-hover:bg-primary/5 transition-colors duration-200">
+                  <BookMarked className="h-12 w-12 text-primary" />
                 </div>
               </div>
             </div>

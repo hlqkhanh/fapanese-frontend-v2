@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Book, Image, MessageCircle, FileText, Clock } from "lucide-react";
 import type { OverviewPartType, SpeakingGroup, Exam } from "@/types/overview";
 
 interface ContentListGridProps {
@@ -22,9 +23,25 @@ export function ContentListGrid({
   partId,
 }: ContentListGridProps) {
   const isSpeaking = partType === "SPEAKING";
-  const cardBg = isSpeaking ? "bg-cyan-50" : "bg-indigo-50";
-  const titleColor = isSpeaking ? "text-cyan-800" : "text-indigo-800";
-  const statTextColor = isSpeaking ? "text-cyan-600" : "text-indigo-600";
+
+  // Helper to get icon based on type
+  const getIcon = (item: SpeakingGroup | Exam) => {
+    if ("type" in item) {
+      // Speaking types
+      switch (item.type) {
+        case "PASSAGE":
+          return Book;
+        case "PICTURE":
+          return Image;
+        case "QUESTION":
+          return MessageCircle;
+        default:
+          return Book;
+      }
+    }
+    // Exam
+    return FileText;
+  };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -75,28 +92,52 @@ export function ContentListGrid({
 
         const count =
           "speakings" in item
-            ? `${item.speakings.length} Bài tập`
+            ? item.speakings.length
             : "questions" in item
-            ? `${item.questions.length} Câu hỏi`
-            : "";
+            ? item.questions.length
+            : 0;
+
+        const countLabel = "speakings" in item ? "Bài tập" : "Câu hỏi";
+        const Icon = getIcon(item);
+        
+        // Use cyan theme for all cards (speaking and exam)
+        const cardBg = "bg-cyan-50/50";
+        const iconBg = "bg-cyan-100";
+        const iconColor = "text-cyan-600";
+        const accentColor = "text-cyan-700";
 
         return (
           <div
             key={item.id}
-            className={`p-6 ${cardBg} rounded-2xl shadow-md cursor-pointer transition-all duration-300 hover:shadow-xl hover:bg-opacity-80 flex flex-col justify-between min-h-[160px] transform hover:scale-[1.02]`}
+            className={`${cardBg} border border-cyan-200 rounded-2xl shadow-md cursor-pointer transition-all duration-300 hover:shadow-xl hover:border-primary/50 p-6 flex flex-col justify-between min-h-[200px] group`}
             onClick={() => onSelectGroup(item.id)}
           >
-            <div>
-              <h3 className={`text-xl font-bold ${titleColor} mb-3 line-clamp-2`}>
+            {/* Icon Badge */}
+            <div className="flex items-start justify-between mb-4">
+              <div className={`${iconBg} p-3 rounded-xl group-hover:scale-110 transition-transform`}>
+                <Icon className={`h-6 w-6 ${iconColor}`} />
+              </div>
+              <div className="flex items-center gap-1.5 text-gray-500">
+                <Clock className="h-4 w-4" />
+                <span className="text-sm">{count}</span>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="flex-1">
+              <h3 className={`text-lg font-bold text-gray-900 mb-2 line-clamp-2`}>
                 {title}
               </h3>
-              <p className="text-gray-600 text-base line-clamp-2">{description}</p>
+              <p className="text-gray-600 text-sm line-clamp-2">{description}</p>
             </div>
-            <div className="mt-4 text-right">
-              <span
-                className={`text-sm font-semibold ${statTextColor} bg-white px-3 py-1.5 rounded-full shadow-sm`}
-              >
-                {count}
+
+            {/* Footer */}
+            <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
+              <span className={`text-sm font-semibold ${accentColor}`}>
+                {count} {countLabel}
+              </span>
+              <span className="text-primary text-sm font-medium group-hover:translate-x-1 transition-transform">
+                Xem chi tiết →
               </span>
             </div>
           </div>

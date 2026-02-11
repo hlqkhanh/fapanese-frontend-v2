@@ -9,7 +9,7 @@ const AIFeature = () => {
                     <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
                         {/* Left: Text content */}
                         <div className="lg:w-1/2 flex flex-col gap-6 text-center lg:text-left">
-                            <h3 className="text-3xl sm:text-4xl font-extrabold text-[#80D9E6]">
+                            <h3 className="text-3xl sm:text-4xl font-extrabold text-primary">
                                 Feature Section AI Technology
                             </h3>
                             <h2 className="text-2xl sm:text-4xl font-extrabold text-gray-900">

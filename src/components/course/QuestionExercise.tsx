@@ -117,9 +117,9 @@ const QuestionExercise = ({ questions, loading = false, onSubmit }: QuestionExer
       }
     } else {
       if (selectedOption === i) {
-        return `${base} bg-[#E0F7FA] border-[#00BCD4] text-[#00BCD4] shadow-lg scale-[1.01]`;
+        return `${base} bg-primary/10 border-primary text-primary shadow-lg scale-[1.01]`;
       }
-      return `${base} bg-white border-gray-200 hover:border-[#00BCD4] text-gray-800 hover:shadow-lg hover:-translate-y-0.5`;
+      return `${base} bg-white border-gray-200 hover:border-primary text-gray-800 hover:shadow-lg hover:-translate-y-0.5`;
     }
 
     return base;
@@ -224,10 +224,10 @@ const QuestionExercise = ({ questions, loading = false, onSubmit }: QuestionExer
             className="mt-16 w-full px-8 py-5 text-xl rounded-2xl 
                      bg-gradient-to-r from-[#00BCD4] to-[#26C6DA] 
                      text-white font-semibold tracking-wider shadow-btn-neumorphic
-                     transition-all duration-300 
-                     hover:shadow-btn-hover-neumorphic hover:scale-[1.01] 
-                     active:shadow-btn-active-neumorphic active:scale-[0.99]
-                     focus:outline-none focus:ring-4 focus:ring-[#00BCD4]/50"
+                     bg-gradient-primary 
+                     hover:opacity-90 text-white 
+                     active:scale-95 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed 
+                     focus:outline-none focus:ring-4 focus:ring-primary/50"
           >
             Làm Lại Bài Luyện Tập
           </button>
@@ -250,7 +250,7 @@ const QuestionExercise = ({ questions, loading = false, onSubmit }: QuestionExer
 
         <div className="w-full bg-gray-100 rounded-full h-3 overflow-hidden shadow-inner">
           <motion.div
-            className="bg-gradient-to-r from-[#00BCD4] to-[#4DD0E1] h-3 rounded-full"
+            className="bg-gradient-primary h-3 rounded-full"
             initial={{ width: 0 }}
             animate={{
               width: `${
@@ -291,7 +291,7 @@ const QuestionExercise = ({ questions, loading = false, onSubmit }: QuestionExer
                 setIsAnswered(false);
                 setIsCorrect(null);
               }}
-              className="px-8 py-3 rounded-full font-semibold bg-[#00BCD4] hover:bg-[#0097A7] text-white shadow-lg"
+              className="px-8 py-3 rounded-full font-semibold bg-primary hover:opacity-90 text-white shadow-lg"
             >
               Câu tiếp theo ▶
             </motion.button>
@@ -303,7 +303,7 @@ const QuestionExercise = ({ questions, loading = false, onSubmit }: QuestionExer
               }}
               whileTap={{ scale: 0.95 }}
               onClick={handleSubmitQuiz}
-              className="px-8 py-3 rounded-full font-bold bg-gradient-to-r from-[#00BCD4] to-[#26C6DA] text-white text-lg shadow-xl"
+              className="px-8 py-3 rounded-full font-bold bg-gradient-primary text-white text-lg shadow-xl"
             >
               HOÀN THÀNH 🚀
             </motion.button>

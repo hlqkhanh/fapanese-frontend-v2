@@ -21,7 +21,7 @@ import { speakingTestService } from "@/services/speakingTestService";
 import { webSpeechAPI } from "@/lib/webSpeechAPI";
 
 export default function SpeakingTestPage() {
-  const { courseCode, overviewId, partId } = useParams<{
+  const { courseCode, partId } = useParams<{
     courseCode: string;
     overviewId: string;
     partId: string;
@@ -61,7 +61,7 @@ export default function SpeakingTestPage() {
     try {
       audioBlob = await recorder.stopRecording();
       audioUrl = URL.createObjectURL(audioBlob);
-      
+
       // Helper to save transcript to correct part
       const saveTranscriptPart = (text: string, url: string) => {
         if (speakingTest.currentPart === "passage") {
@@ -82,7 +82,7 @@ export default function SpeakingTestPage() {
           recorder.setStatus("transcribing");
           const result = await webSpeechAPI.transcribe(audioBlob);
           clientTranscript = result.text;
-          
+
           // Show instant result
           saveTranscriptPart(clientTranscript, audioUrl);
           toast.success("Gỡ băng nhanh! Đang xác minh...", { duration: 2000 });
@@ -93,23 +93,24 @@ export default function SpeakingTestPage() {
 
       // Phase 2: Server transcription (accurate)
       recorder.setStatus("transcribing");
-      const serverTranscript = await speakingTestService.transcribeAudio(audioBlob);
-      
+      const serverTranscript =
+        await speakingTestService.transcribeAudio(audioBlob);
+
       // Replace with accurate server version
       saveTranscriptPart(serverTranscript, audioUrl);
-      
+
       // Notify if different from client version
       if (clientTranscript && serverTranscript !== clientTranscript) {
         toast.info("Đã cập nhật transcript chính xác");
       }
     } catch (err: any) {
       console.error("Transcription error:", err);
-      
+
       // Clean up blob URL if created
       if (audioUrl) {
         URL.revokeObjectURL(audioUrl);
       }
-      
+
       // Show error to user with actionable message
       const errorMsg = err.message || "Không thể xử lý audio";
       toast.error(`Lỗi gỡ băng: ${errorMsg}. Hãy thử ghi lại.`, {
@@ -128,11 +129,17 @@ export default function SpeakingTestPage() {
 
     try {
       if (speakingTest.currentPart === "picture") {
-        await tts.speak(speakingTest.testData.picturePart.questions[0].question);
+        await tts.speak(
+          speakingTest.testData.picturePart.questions[0].question,
+        );
       } else if (speakingTest.currentPart === "question1") {
-        await tts.speak(speakingTest.testData.questionPart.questions[0].question);
+        await tts.speak(
+          speakingTest.testData.questionPart.questions[0].question,
+        );
       } else if (speakingTest.currentPart === "question2") {
-        await tts.speak(speakingTest.testData.questionPart.questions[1].question);
+        await tts.speak(
+          speakingTest.testData.questionPart.questions[1].question,
+        );
       }
     } catch (err: any) {
       toast.error("Không thể phát audio");
@@ -142,10 +149,14 @@ export default function SpeakingTestPage() {
   // Render current transcript
   const renderTranscript = () => {
     let text = "";
-    if (speakingTest.currentPart === "passage") text = speakingTest.transcripts.passage;
-    else if (speakingTest.currentPart === "picture") text = speakingTest.transcripts.picture;
-    else if (speakingTest.currentPart === "question1") text = speakingTest.transcripts.q1;
-    else if (speakingTest.currentPart === "question2") text = speakingTest.transcripts.q2;
+    if (speakingTest.currentPart === "passage")
+      text = speakingTest.transcripts.passage;
+    else if (speakingTest.currentPart === "picture")
+      text = speakingTest.transcripts.picture;
+    else if (speakingTest.currentPart === "question1")
+      text = speakingTest.transcripts.q1;
+    else if (speakingTest.currentPart === "question2")
+      text = speakingTest.transcripts.q2;
 
     if (recorder.status === "transcribing") {
       return (
@@ -157,11 +168,7 @@ export default function SpeakingTestPage() {
     }
 
     if (text) {
-      return (
-        <p className="text-gray-700 italic text-center">
-          "{text}"
-        </p>
-      );
+      return <p className="text-gray-700 italic text-center">"{text}"</p>;
     }
 
     return null;
@@ -175,7 +182,8 @@ export default function SpeakingTestPage() {
           <div className="text-center">
             <h1 className="text-3xl font-bold mb-4">Thi mô phỏng Speaking</h1>
             <p className="mb-8 text-lg text-gray-600">
-              Bài thi bao gồm 3 phần: Đọc đoạn văn, Trả lời câu hỏi tranh, và Trả lời câu hỏi tự do.
+              Bài thi bao gồm 3 phần: Đọc đoạn văn, Trả lời câu hỏi tranh, và
+              Trả lời câu hỏi tự do.
             </p>
             {speakingTest.error && (
               <div className="text-center text-red-600 mb-4 p-3 bg-red-50 rounded-lg">
@@ -195,13 +203,17 @@ export default function SpeakingTestPage() {
         return <LoadingState type="loading" />;
 
       case "passage":
-        return speakingTest.testData && (
-          <PassageView passage={speakingTest.testData.passagePart} />
+        return (
+          speakingTest.testData && (
+            <PassageView passage={speakingTest.testData.passagePart} />
+          )
         );
 
       case "picture":
-        return speakingTest.testData && (
-          <PictureView picturePart={speakingTest.testData.picturePart} />
+        return (
+          speakingTest.testData && (
+            <PictureView picturePart={speakingTest.testData.picturePart} />
+          )
         );
 
       case "question1":
@@ -212,8 +224,8 @@ export default function SpeakingTestPage() {
 
       case "grading":
         return speakingTest.error ? (
-          <LoadingState 
-            type="error" 
+          <LoadingState
+            type="error"
             error={speakingTest.error}
             onRetry={() => speakingTest.setCurrentPart("question2")}
           />
@@ -236,7 +248,8 @@ export default function SpeakingTestPage() {
                 Nhận xét tổng kết
               </h4>
               <p className="text-gray-800 font-medium text-lg whitespace-pre-wrap">
-                {speakingTest.feedback?.overall || "Không có nhận xét tổng kết."}
+                {speakingTest.feedback?.overall ||
+                  "Không có nhận xét tổng kết."}
               </p>
             </div>
 
@@ -286,29 +299,33 @@ export default function SpeakingTestPage() {
     }
   };
 
-  const showControls = ["passage", "picture", "question1", "question2"].includes(
-    speakingTest.currentPart
-  );
+  const showControls = [
+    "passage",
+    "picture",
+    "question1",
+    "question2",
+  ].includes(speakingTest.currentPart);
 
   const showReplayButton = ["picture", "question1", "question2"].includes(
-    speakingTest.currentPart
+    speakingTest.currentPart,
   );
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4 md:p-8">
       <div className="w-full max-w-4xl bg-white shadow-2xl rounded-2xl p-6 md:p-10 min-h-[600px] flex flex-col justify-between">
         {/* Header with back button */}
-        {speakingTest.currentPart !== "idle" && speakingTest.currentPart !== "REVIEW_ALL" && (
-          <div className="mb-4">
-            <button
-              onClick={() => navigate(`/courses/${courseCode}/overview`)}
-              className="flex items-center text-gray-600 hover:text-gray-800 transition-colors"
-            >
-              <ArrowLeft className="mr-2" size={20} />
-              Quay lại khóa học
-            </button>
-          </div>
-        )}
+        {speakingTest.currentPart !== "idle" &&
+          speakingTest.currentPart !== "REVIEW_ALL" && (
+            <div className="mb-4">
+              <button
+                onClick={() => navigate(`/courses/${courseCode}/overview`)}
+                className="flex items-center text-gray-600 hover:text-gray-800 transition-colors"
+              >
+                <ArrowLeft className="mr-2" size={20} />
+                Quay lại khóa học
+              </button>
+            </div>
+          )}
 
         {/* Main content */}
         <div className="flex-grow flex items-center justify-center">
@@ -337,7 +354,9 @@ export default function SpeakingTestPage() {
               onStartRecording={handleStartRecording}
               onStopRecording={handleStopRecording}
               onNext={speakingTest.nextPart}
-              onReplayQuestion={showReplayButton ? handleReplayQuestion : undefined}
+              onReplayQuestion={
+                showReplayButton ? handleReplayQuestion : undefined
+              }
               canProceed={speakingTest.canProceed()}
               showReplayButton={showReplayButton}
             />

@@ -28,7 +28,7 @@ const NavTabButtons = ({ activeTab, onTabChange, isFloating = false }: NavTabBut
           className={`relative z-[20] w-1/2 py-2 text-base font-semibold rounded-full transition-all duration-300 ${
             activeTab === tab
               ? "text-[#00838F]"
-              : "text-gray-600 hover:text-[#00BCD4]"
+              : "text-gray-600 hover:text-primary"
           }`}
         >
           {tab === "lesson" ? "Bài học" : "Bài tập"}

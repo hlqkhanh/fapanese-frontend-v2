@@ -69,6 +69,33 @@ export const useAuthStore = create<AuthState>()(
             }
         },
 
+        loginGoogle: async (token) => {
+            try {
+                set({ loading: true });
+                // Clean storage cũ để tránh conflict
+                localStorage.clear(); 
+
+                // 1. Gọi Service
+                const response = await authService.loginGoogle(token);
+
+                // 2. Lấy AccessToken từ response (Backend trả về ApiResponse.result.accessToken)
+                const accessToken = response.result?.accessToken;
+                
+                // 3. Lưu token vào store
+                set({ accessToken });
+
+                // 4. Gọi fetchMe để lấy thông tin user (Role, Name, Avatar...)
+                await get().fetchMe();
+
+                return Promise.resolve(response);
+            } catch (error) {
+                console.error("Google Login Error:", error);
+                return Promise.reject(error);
+            } finally {
+                set({ loading: false });
+            }
+        },
+
 
         verifyOTP: async (email, otp) => {
             try {
@@ -135,6 +162,8 @@ export const useAuthStore = create<AuthState>()(
             }
         },
 
+
+        
 
     }), {
         name: "auth-storage",

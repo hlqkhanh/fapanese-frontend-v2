@@ -20,8 +20,8 @@
 
     /* --- PRIMARY: #82DAE6 (Cyan) --- */
     --primary: 187 68% 71%;
-    /* Vì màu nền Primary sáng (#82DAE6), chữ phải màu tối mới đọc được */
-    --primary-foreground: 217.2 32.6% 15%; 
+    /* Text on Primary background should be white for better contrast */
+    --primary-foreground: 0 0% 100%; 
     /* Glow chuyển sang màu #A2EAF1 */
     --primary-glow: 185 76% 79%;
 
@@ -343,6 +343,12 @@
 
   .border-success {
     @apply border border-[hsl(var(--success))];
+  }
+
+  /* Flashcard flip animation utilities */
+  .backface-hidden {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
   }
 
   @keyframes messageSlideIn {

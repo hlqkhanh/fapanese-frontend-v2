@@ -6,10 +6,31 @@ import type { Lecturer, LecturerPayload, LecturerSearchParams } from "./lecturer
 // Re-export for convenience
 export type { StudentSearchParams, LecturerSearchParams };
 
+
 export interface AuthState {
     accessToken: string | null;
     loginUser: LoginUser | null;
     loading: boolean;
+
+    signUp: (
+        email: string,
+        password: string,
+        firstName: string,
+        lastName: string,
+        role: string,
+        expertise: string,
+        bio: string,
+        dateOfBirth: string,
+        campus: string
+    ) => Promise<void>;
+    login: (email: string, password: string,) => Promise<void>;
+    sendOTP: (email: string,) => Promise<void>;
+    verifyOTP: (email: string, otp: string,) => Promise<void>; 
+    fetchMe: () => Promise<void>;
+    refresh: () => Promise<void>;
+    clearState: () => void;
+    logout: () => Promise<void>;
+    loginGoogle: (token: string) => Promise<void>;
 
     signUp: (
         email: string,

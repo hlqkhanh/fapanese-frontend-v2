@@ -17,8 +17,10 @@ import LecturerManagePage from './pages/admin/LecturerManagePage';
 import CourseManagePage from './pages/admin/CourseManagePage';
 import LessonPage from './pages/course/LessonPage';
 import CourseDetailPage from './pages/course/CourseDetailPage';
+import FlashcardPage from './pages/course/FlashcardPage';
 import OverviewContentPage from './pages/overview/OverviewContentPage';
 import SpeakingTestPage from './pages/speaking/SpeakingTestPage';
+import FavoritesPage from './pages/course/FavoritesPage';
 import ProfilePage from './pages/users/ProfilePage';
 
 // ... các import khác giữ nguyên ...
@@ -38,8 +40,10 @@ function App() {
               <Route path="/course/:courseId" element={<CourseDetailPage />} />
               <Route path="/courses/:courseCode" element={<CourseDetailPage />} />
               <Route path="/lesson/:courseCode/:lessonId/:lessonPartId" element={<LessonPage />} />
+              <Route path="/flashcard/:lessonPartId" element={<FlashcardPage />} />
               <Route path="/overview/:courseCode/:overviewId/:partId" element={<OverviewContentPage />} />
               <Route path="/speaking-test/:courseCode/:overviewId/:partId" element={<SpeakingTestPage />} />
+              <Route path="/favorites" element={<FavoritesPage />} />
 
               <Route element={<ProtectedRoute />}>
                 <Route path="/profile" element={<ProfilePage />} />

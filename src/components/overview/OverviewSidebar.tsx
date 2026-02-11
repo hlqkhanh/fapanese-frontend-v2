@@ -34,7 +34,7 @@ export function OverviewSidebar({
                   flex items-center w-full text-left px-5 py-2.5 rounded-xl transition-all duration-300 text-lg font-medium
                   ${
                     isActive
-                      ? "bg-gradient-to-r from-[#00BCD4] to-[#4DD0E1] text-white shadow-lg transform scale-[1.03] hover:bg-cyan-600"
+                      ? "bg-gradient-primary text-white shadow-lg transform scale-[1.03] hover:opacity-90"
                       : "text-gray-800 hover:bg-cyan-50 hover:text-cyan-700"
                   }
                 `}

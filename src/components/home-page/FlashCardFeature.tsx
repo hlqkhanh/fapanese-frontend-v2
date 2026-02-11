@@ -17,7 +17,7 @@ const FlashCardFeature = () => {
                     <h2 className="text-3xl font-bold text-center mb-8">
                         GIỚI THIỆU CHỨC NĂNG FLASHCARDS
                         {" "}
-                        <span className="text-[#80D9E6] font-extrabold">
+                        <span className="text-primary font-extrabold">
                             GIÚP BẠN HỌC TẬP HIỆU QUẢ
                             {" "}
                         </span>

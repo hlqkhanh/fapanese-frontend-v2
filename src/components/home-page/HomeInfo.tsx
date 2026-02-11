@@ -19,7 +19,7 @@ const HomeInfo = () => {
 
       <ScrollReveal>
         {/* Section 2: 4 cột với nền xanh */}
-        <section className="w-full bg-[#80D9E6] py-12 sm:py-16 px-4 sm:px-6">
+        <section className="w-full bg-primary py-12 sm:py-16 px-4 sm:px-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 max-w-6xl mx-auto">
             {/* Card 1 */}
             <div className="relative group">

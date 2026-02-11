@@ -117,7 +117,7 @@ const AlphabetLearning: React.FC<AlphabetLearningProps> = ({ initialTab = "hirag
           {/* --- HEADER --- */}
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
-              HỌC BẢNG CHỮ CÁI <span className="text-[#80D9E6]">BẰNG HÌNH THỨC MỚI MẺ</span>
+              HỌC BẢNG CHỮ CÁI <span className="text-primary">BẰNG HÌNH THỨC MỚI MẺ</span>
             </h2>
             <p className="text-gray-500">
               Chọn chế độ học bên trái và theo dõi tiến độ ở danh sách bên phải.
@@ -182,7 +182,7 @@ const AlphabetLearning: React.FC<AlphabetLearningProps> = ({ initialTab = "hirag
                   </div>
                   <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
                     <motion.div 
-                      className="h-full bg-[#80D9E6]"
+                      className="h-full bg-primary"
                       initial={{ width: 0 }}
                       animate={{ width: `${progressPercentage}%` }}
                       transition={{ duration: 0.5 }}

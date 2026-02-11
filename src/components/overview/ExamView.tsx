@@ -160,14 +160,14 @@ export function ExamView({
         {!isSubmitted ? (
           <Button
             onClick={onSubmit}
-            className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-[#00BCD4] to-[#4DD0E1] text-white rounded-full font-bold text-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.01] active:scale-95"
+            className="w-full sm:w-auto px-10 py-4 bg-gradient-primary text-white rounded-full font-bold text-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.01] active:scale-95"
           >
             Nộp bài và xem kết quả
           </Button>
         ) : (
           <Button
             onClick={() => window.location.reload()}
-            className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-[#00BCD4] to-[#4DD0E1] text-white rounded-full font-bold text-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.01] active:scale-95"
+            className="w-full sm:w-auto px-10 py-4 bg-gradient-primary text-white rounded-full font-bold text-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.01] active:scale-95"
           >
             Làm lại
           </Button>

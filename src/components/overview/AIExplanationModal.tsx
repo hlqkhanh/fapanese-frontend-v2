@@ -179,7 +179,7 @@ export function AIExplanationModal({
             <div className="p-4 bg-white border-t border-gray-200 flex justify-end">
               <Button
                 onClick={() => onOpenChange(false)}
-                className="px-8 py-2.5 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-full font-semibold shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 transform hover:scale-105 active:scale-95"
+                className="px-8 py-2.5 bg-gradient-primary text-white rounded-full font-semibold shadow-lg hover:shadow-primary/50 transition-all duration-300 transform hover:scale-105 active:scale-95"
               >
                 Đã hiểu
               </Button>
