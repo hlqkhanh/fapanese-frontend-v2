@@ -4,10 +4,16 @@ import type { InternalAxiosRequestConfig } from "axios";
 import { toast } from "sonner";
 
 
+// const api = axios.create({
+//   baseURL: import.meta.env.MODE === 'development' ? "http://localhost:8080/fapanese/api" : "/fapanese/api",
+//   withCredentials: true,
+// });
+
 const api = axios.create({
-  baseURL: import.meta.env.MODE === 'development' ? "http://localhost:8080/fapanese/api" : "/fapanese/api",
+  baseURL: import.meta.env.MODE === 'development' ? "https://fapanese-web.onrender.com/fapanese/api" : "/fapanese/api",
   withCredentials: true,
 });
+
 
 
 //gắn access token vào req header (phải có requiresAuth: true, khi gửi req)
