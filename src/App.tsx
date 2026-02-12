@@ -37,17 +37,17 @@ function App() {
             <Route element={<MainLayout />}>
               <Route path="/" element={<HomePage />} />
               <Route path="/courses" element={<CourseList />} />
-              <Route path="/course/:courseId" element={<CourseDetailPage />} />
-              <Route path="/courses/:courseCode" element={<CourseDetailPage />} />
-              <Route path="/lesson/:courseCode/:lessonId/:lessonPartId" element={<LessonPage />} />
-              <Route path="/flashcard/:lessonPartId" element={<FlashcardPage />} />
-              <Route path="/overview/:courseCode/:overviewId/:partId" element={<OverviewContentPage />} />
-              <Route path="/speaking-test/:courseCode/:overviewId/:partId" element={<SpeakingTestPage />} />
-              <Route path="/favorites" element={<FavoritesPage />} />
+
 
               <Route element={<ProtectedRoute />}>
                 <Route path="/profile" element={<ProfilePage />} />
-
+                <Route path="/course/:courseId" element={<CourseDetailPage />} />
+                <Route path="/courses/:courseCode" element={<CourseDetailPage />} />
+                <Route path="/lesson/:courseCode/:lessonId/:lessonPartId" element={<LessonPage />} />
+                <Route path="/flashcard/:lessonPartId" element={<FlashcardPage />} />
+                <Route path="/overview/:courseCode/:overviewId/:partId" element={<OverviewContentPage />} />
+                <Route path="/speaking-test/:courseCode/:overviewId/:partId" element={<SpeakingTestPage />} />
+                <Route path="/favorites" element={<FavoritesPage />} />
               </Route>
             </Route>
 
