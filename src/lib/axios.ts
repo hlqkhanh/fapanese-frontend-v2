@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 
 const api = axios.create({
-  baseURL: import.meta.env.MODE === 'development' ? "http://localhost:8080/fapanese/api" : "/fapanese/api",
+  baseURL: import.meta.env.MODE === 'development' ? "http://localhost:8080/fapanese/api" : "https://fapanese-backend-1-0-1.onrender.com/fapanese/api",
   withCredentials: true,
 });
 
